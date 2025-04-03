@@ -29,10 +29,12 @@ public class Validador {
     }
 
     public static boolean validarCNPJ(String cnpj) {
-        return cnpj != null && cnpj.matches("\\d{14}");
-        // Para um projeto acadêmico, essa verificação simples basta.
-        // Se quiser, posso implementar a validação real de dígitos verificadores.
+        if (cnpj == null) return false;
+
+        // Aceita tanto formatado quanto apenas os dígitos
+        return cnpj.matches("\\d{2}\\.\\d{3}\\.\\d{3}/\\d{4}-\\d{2}") || cnpj.matches("\\d{14}");
     }
+
 
     public static boolean validarEmail(String email) {
         return email != null && email.matches("^[\\w-.]+@[\\w-]+\\.[a-z]{2,}$");

@@ -79,6 +79,12 @@
                 </GridPane>
             </TitledPane>
 
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Label text="Buscar por Código:"/>
+                <TextField fx:id="tfBuscarCodigo" promptText="Digite o código do medicamento"/>
+                <Button text="Buscar" onAction="#buscarPorCodigo"/>
+            </HBox>
+
             <!-- TABELA -->
             <TitledPane text="Lista de Medicamentos" expanded="true">
                 <VBox spacing="5">
@@ -105,6 +111,7 @@
             <HBox spacing="10" alignment="CENTER">
                 <Button text="Adicionar" onAction="#adicionarMedicamento"/>
                 <Button text="Excluir" onAction="#excluirMedicamento"/>
+                <Button text="Limpar Busca" onAction="#carregarTabela"/>
                 <!-- Outros botões de relatório podem ser adicionados aqui -->
             </HBox>
 

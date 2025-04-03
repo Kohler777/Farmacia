@@ -38,6 +38,7 @@ public class MedicamentoController {
     @FXML private TableColumn<Medicamento, String> colNome;
     @FXML private TableColumn<Medicamento, Integer> colQuantidade;
     @FXML private TableColumn<Medicamento, LocalDate> colValidade;
+    @FXML private TextField tfBuscarCodigo;
 
     private final MedicamentoRepository repository = new MedicamentoRepository();
 
@@ -64,6 +65,7 @@ public class MedicamentoController {
         colValidade.setCellValueFactory(new PropertyValueFactory<>("dataValidade"));
     }
 
+    @FXML
     private void carregarTabela() {
         tabelaMedicamentos.getItems().setAll(repository.listarTodos());
     }
@@ -87,14 +89,20 @@ public class MedicamentoController {
 
             boolean controlado = cbControlado.isSelected();
 
+            String cnpj = tfCnpj.getText().trim();
+            if (!Validador.validarCNPJ(cnpj)) {
+                throw new IllegalArgumentException("CNPJ inválido! Use o formato 00.000.000/0001-00 ou 00000000000100");
+            }
+
             Fornecedor fornecedor = new Fornecedor(
-                    tfCnpj.getText().trim(),
+                    cnpj,
                     tfRazaoSocial.getText().trim(),
                     tfTelefone.getText().trim(),
                     tfEmail.getText().trim(),
                     tfCidade.getText().trim(),
                     tfEstado.getText().trim()
             );
+
 
             Medicamento medicamento = new Medicamento(
                     codigo, nome, tfDescricao.getText(), tfPrincipioAtivo.getText(),
@@ -182,4 +190,21 @@ public class MedicamentoController {
         }
     }
 
+    public void buscarPorCodigo(ActionEvent actionEvent) {
+        String codigo = tfBuscarCodigo.getText().trim();
+
+        if (codigo.isEmpty()) {
+            mostrarMensagem("Digite um código para buscar.");
+            return;
+        }
+
+        Medicamento medicamento = repository.buscarPorCodigo(codigo);
+
+        if (medicamento != null) {
+            tabelaMedicamentos.getItems().setAll(medicamento);
+        } else {
+            mostrarMensagem("Medicamento não encontrado para o código: " + codigo);
+            tabelaMedicamentos.getItems().clear();
+        }
+    }
 }

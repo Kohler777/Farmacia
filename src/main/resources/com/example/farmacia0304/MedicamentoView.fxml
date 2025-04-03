@@ -93,6 +93,11 @@
                             <TableColumn fx:id="colValidade" text="Validade" prefWidth="120"/>
                         </columns>
                     </TableView>
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <Label text="Filtrar por:"/>
+                        <ComboBox fx:id="cbFiltro" prefWidth="250"/>
+                        <Button text="Aplicar Filtro" onAction="#aplicarFiltro"/>
+                    </HBox>
                 </VBox>
             </TitledPane>
 

@@ -68,9 +68,15 @@ public class MedicamentoRepository {
         try {
             List<String[]> dados = CSVUtil.lerCSV(arquivoCSV);
             for (String[] linha : dados) {
+                if (linha.length < 14) {
+                    System.out.println("Linha inválida ignorada: " + Arrays.toString(linha));
+                    continue;
+                }
+
                 Fornecedor f = new Fornecedor(
                         linha[8], linha[9], linha[10], linha[11], linha[12], linha[13]
                 );
+
                 Medicamento m = new Medicamento(
                         linha[0],
                         linha[1],
@@ -82,6 +88,7 @@ public class MedicamentoRepository {
                         Boolean.parseBoolean(linha[7]),
                         f
                 );
+
                 medicamentos.add(m);
             }
         } catch (IOException e) {

@@ -4,12 +4,14 @@ import com.example.farmacia0304.model.Fornecedor;
 import com.example.farmacia0304.model.Medicamento;
 import com.example.farmacia0304.repository.MedicamentoRepository;
 import com.example.farmacia0304.Util.Validador;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 public class MedicamentoController {
 
@@ -21,6 +23,7 @@ public class MedicamentoController {
     @FXML private Spinner<Integer> spQuantidade;
     @FXML private TextField tfPreco;
     @FXML private CheckBox cbControlado;
+    @FXML private ComboBox<String> cbFiltro;
 
     // Fornecedor
     @FXML private TextField tfCnpj;
@@ -44,6 +47,14 @@ public class MedicamentoController {
         carregarTabela();
 
         spQuantidade.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 1000, 0));
+
+        cbFiltro.getItems().addAll(
+                "Todos",
+                    "Medicamentos Controlados",
+                    "Medicamentos não controlados",
+                    "Medicamentos Próximos do Vencimento",
+                    "Medicamentos com estoque Baixo"
+        );
     }
 
     private void configurarTabela() {
@@ -139,4 +150,36 @@ public class MedicamentoController {
         alert.setContentText(msg);
         alert.showAndWait();
     }
+
+    @FXML
+    private void aplicarFiltro() {
+        String opcao = cbFiltro.getValue();
+
+        switch (opcao) {
+            case "Medicamentos Controlados":
+                tabelaMedicamentos.getItems().setAll(
+                        repository.agruparPorControlado().getOrDefault(true, List.of())
+                );
+                break;
+            case "Medicamentos não controlados":
+                tabelaMedicamentos.getItems().setAll(
+                        repository.agruparPorControlado().getOrDefault(false, List.of())
+                );
+                break;
+            case "Medicamentos Próximos do Vencimento":
+                tabelaMedicamentos.getItems().setAll(
+                        repository.medicamentosProximosVencimento()
+                );
+                break;
+            case "Medicamentos com estoque Baixo":
+                tabelaMedicamentos.getItems().setAll(
+                        repository.medicamentosEstoqueBaixo()
+                );
+                break;
+            default:
+                carregarTabela(); // "Todos"
+                break;
+        }
+    }
+
 }

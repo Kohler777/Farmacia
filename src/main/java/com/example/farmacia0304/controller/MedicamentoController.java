@@ -99,6 +99,9 @@ public class MedicamentoController {
             // Validação básica
             String codigo = tfCodigo.getText().trim();
             if (!Validador.validarCodigo(codigo)) throw new IllegalArgumentException("Código inválido!");
+            if (repository.buscarPorCodigo(codigo) != null) {
+                throw new IllegalArgumentException("Já existe um medicamento cadastrado com esse codigo");
+            }
 
             String nome = tfNome.getText().trim();
             if (!Validador.validarNome(nome)) throw new IllegalArgumentException("Nome inválido!");

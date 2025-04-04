@@ -14,12 +14,15 @@ public class MedicamentoRepository {
     private final List<Medicamento> medicamentos = new ArrayList<>();
     private final String arquivoCSV = "medicamentos.csv";
 
+    private final FornecedorRepository fornecedorRepo = new FornecedorRepository(); // novo
+
     public MedicamentoRepository() {
         carregar();
     }
 
     public void adicionar(Medicamento medicamento) {
         medicamentos.add(medicamento);
+        fornecedorRepo.adicionar(medicamento.getFornecedor()); // garante que o fornecedor vai para o CSV certo
         salvar();
     }
 
@@ -49,12 +52,7 @@ public class MedicamentoRepository {
                 String.valueOf(m.getQuantidadeEstoque()),
                 m.getPreco().toString(),
                 String.valueOf(m.isControlado()),
-                m.getFornecedor().getCnpj(),
-                m.getFornecedor().getRazaoSocial(),
-                m.getFornecedor().getTelefone(),
-                m.getFornecedor().getEmail(),
-                m.getFornecedor().getCidade(),
-                m.getFornecedor().getEstado()
+                m.getFornecedor().getCnpj() // apenas o CNPJ
         )).toList();
 
         try {
@@ -68,14 +66,18 @@ public class MedicamentoRepository {
         try {
             List<String[]> dados = CSVUtil.lerCSV(arquivoCSV);
             for (String[] linha : dados) {
-                if (linha.length < 14) {
+                if (linha.length < 9) {
                     System.out.println("Linha inválida ignorada: " + Arrays.toString(linha));
                     continue;
                 }
 
-                Fornecedor f = new Fornecedor(
-                        linha[8], linha[9], linha[10], linha[11], linha[12], linha[13]
-                );
+                String cnpj = linha[8];
+                Fornecedor f = fornecedorRepo.buscarPorCnpj(cnpj);
+
+                if (f == null) {
+                    System.out.println("Fornecedor não encontrado para o CNPJ: " + cnpj);
+                    continue;
+                }
 
                 Medicamento m = new Medicamento(
                         linha[0],

@@ -2,6 +2,7 @@ package com.example.farmacia0304.controller;
 
 import com.example.farmacia0304.model.Fornecedor;
 import com.example.farmacia0304.model.Medicamento;
+import com.example.farmacia0304.repository.FornecedorRepository;
 import com.example.farmacia0304.repository.MedicamentoRepository;
 import com.example.farmacia0304.Util.Validador;
 import javafx.event.ActionEvent;
@@ -15,32 +16,54 @@ import java.util.List;
 
 public class MedicamentoController {
 
-    @FXML private TextField tfCodigo;
-    @FXML private TextField tfNome;
-    @FXML private TextField tfDescricao;
-    @FXML private TextField tfPrincipioAtivo;
-    @FXML private DatePicker dpValidade;
-    @FXML private Spinner<Integer> spQuantidade;
-    @FXML private TextField tfPreco;
-    @FXML private CheckBox cbControlado;
-    @FXML private ComboBox<String> cbFiltro;
+    @FXML
+    private TextField tfCodigo;
+    @FXML
+    private TextField tfNome;
+    @FXML
+    private TextField tfDescricao;
+    @FXML
+    private TextField tfPrincipioAtivo;
+    @FXML
+    private DatePicker dpValidade;
+    @FXML
+    private Spinner<Integer> spQuantidade;
+    @FXML
+    private TextField tfPreco;
+    @FXML
+    private CheckBox cbControlado;
+    @FXML
+    private ComboBox<String> cbFiltro;
 
     // Fornecedor
-    @FXML private TextField tfCnpj;
-    @FXML private TextField tfRazaoSocial;
-    @FXML private TextField tfTelefone;
-    @FXML private TextField tfEmail;
-    @FXML private TextField tfCidade;
-    @FXML private TextField tfEstado;
+    @FXML
+    private TextField tfCnpj;
+    @FXML
+    private TextField tfRazaoSocial;
+    @FXML
+    private TextField tfTelefone;
+    @FXML
+    private TextField tfEmail;
+    @FXML
+    private TextField tfCidade;
+    @FXML
+    private TextField tfEstado;
 
-    @FXML private TableView<Medicamento> tabelaMedicamentos;
-    @FXML private TableColumn<Medicamento, String> colCodigo;
-    @FXML private TableColumn<Medicamento, String> colNome;
-    @FXML private TableColumn<Medicamento, Integer> colQuantidade;
-    @FXML private TableColumn<Medicamento, LocalDate> colValidade;
-    @FXML private TextField tfBuscarCodigo;
+    @FXML
+    private TableView<Medicamento> tabelaMedicamentos;
+    @FXML
+    private TableColumn<Medicamento, String> colCodigo;
+    @FXML
+    private TableColumn<Medicamento, String> colNome;
+    @FXML
+    private TableColumn<Medicamento, Integer> colQuantidade;
+    @FXML
+    private TableColumn<Medicamento, LocalDate> colValidade;
+    @FXML
+    private TextField tfBuscarCodigo;
 
     private final MedicamentoRepository repository = new MedicamentoRepository();
+    private final FornecedorRepository fornecedorRepo = new FornecedorRepository();
 
     @FXML
     public void initialize() {
@@ -51,10 +74,10 @@ public class MedicamentoController {
 
         cbFiltro.getItems().addAll(
                 "Todos",
-                    "Medicamentos Controlados",
-                    "Medicamentos não controlados",
-                    "Medicamentos Próximos do Vencimento",
-                    "Medicamentos com estoque Baixo"
+                "Medicamentos Controlados",
+                "Medicamentos não controlados",
+                "Medicamentos Próximos do Vencimento",
+                "Medicamentos com estoque Baixo"
         );
     }
 
@@ -207,4 +230,32 @@ public class MedicamentoController {
             tabelaMedicamentos.getItems().clear();
         }
     }
+
+    @FXML
+    private void abrirSelecaoFornecedor() {
+        fornecedorRepo.recarregar();
+        List<Fornecedor> fornecedores = fornecedorRepo.listarTodos();
+
+        if (fornecedores.isEmpty()) {
+            mostrarMensagem("Nenhum fornecedor cadastrado ainda.");
+            return;
+        }
+
+        ChoiceDialog<Fornecedor> dialog = new ChoiceDialog<>(fornecedores.get(0), fornecedores);
+        dialog.setTitle("Selecionar Fornecedor");
+        dialog.setHeaderText("Escolha um fornecedor já cadastrado");
+        dialog.setContentText("Fornecedor:");
+
+        dialog.showAndWait().ifPresent(f -> {
+            tfCnpj.setText(f.getCnpj());
+            tfRazaoSocial.setText(f.getRazaoSocial());
+            tfTelefone.setText(f.getTelefone());
+            tfEmail.setText(f.getEmail());
+            tfCidade.setText(f.getCidade());
+            tfEstado.setText(f.getEstado());
+        });
+    }
+
+
 }
+

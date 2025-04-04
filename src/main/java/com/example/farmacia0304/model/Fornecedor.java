@@ -67,4 +67,8 @@ public class Fornecedor {
     public void setEstado(String estado) {
         this.estado = estado;
     }
+
+    public String toString() {
+        return razaoSocial + " (" + cnpj +" )";
+    }
 }

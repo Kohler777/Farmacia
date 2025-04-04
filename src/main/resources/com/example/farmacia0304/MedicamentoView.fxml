@@ -61,6 +61,8 @@
                     <!-- Coluna 2 - Fornecedor -->
                     <Label text="CNPJ:" GridPane.rowIndex="0" GridPane.columnIndex="2"/>
                     <TextField fx:id="tfCnpj" GridPane.rowIndex="0" GridPane.columnIndex="3"/>
+                    <Button text="Selecionar Fornecedor" onAction="#abrirSelecaoFornecedor"/>
+
 
                     <Label text="Razão Social:" GridPane.rowIndex="1" GridPane.columnIndex="2"/>
                     <TextField fx:id="tfRazaoSocial" GridPane.rowIndex="1" GridPane.columnIndex="3"/>

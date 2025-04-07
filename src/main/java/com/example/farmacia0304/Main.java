@@ -13,7 +13,7 @@ public class Main extends Application {
         Scene scene = new Scene(fxmlLoader.load());
         primaryStage.setTitle("Sistema de Estoque de Medicamentos");
         primaryStage.setScene(scene);
-        primaryStage.setResizable(false); // opcional
+        primaryStage.setResizable(false); 
         primaryStage.show();
     }
 

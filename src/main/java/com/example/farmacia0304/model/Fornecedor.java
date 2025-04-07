@@ -1,5 +1,7 @@
 package com.example.farmacia0304.model;
 
+import java.util.Objects;
+
 public class Fornecedor {
     private String cnpj;
     private String razaoSocial;
@@ -68,7 +70,21 @@ public class Fornecedor {
         this.estado = estado;
     }
 
+    @Override
     public String toString() {
-        return razaoSocial + " (" + cnpj +" )";
+        return razaoSocial + " (" + cnpj + ")";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Fornecedor)) return false;
+        Fornecedor that = (Fornecedor) o;
+        return Objects.equals(cnpj, that.cnpj);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(cnpj);
     }
 }

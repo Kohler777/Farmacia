@@ -14,7 +14,7 @@ public class MedicamentoRepository {
     private final List<Medicamento> medicamentos = new ArrayList<>();
     private final String arquivoCSV = "medicamentos.csv";
 
-    private final FornecedorRepository fornecedorRepo = new FornecedorRepository(); // novo
+    private final FornecedorRepository fornecedorRepo = new FornecedorRepository();
 
     public MedicamentoRepository() {
         carregar();
@@ -22,7 +22,7 @@ public class MedicamentoRepository {
 
     public void adicionar(Medicamento medicamento) {
         medicamentos.add(medicamento);
-        fornecedorRepo.adicionar(medicamento.getFornecedor()); // garante que o fornecedor vai para o CSV certo
+        fornecedorRepo.adicionar(medicamento.getFornecedor());
         salvar();
     }
 
@@ -52,7 +52,7 @@ public class MedicamentoRepository {
                 String.valueOf(m.getQuantidadeEstoque()),
                 m.getPreco().toString(),
                 String.valueOf(m.isControlado()),
-                m.getFornecedor().getCnpj() // apenas o CNPJ
+                m.getFornecedor().getCnpj()
         )).toList();
 
         try {
@@ -98,7 +98,7 @@ public class MedicamentoRepository {
         }
     }
 
-    // RELATÓRIOS COM STREAM API
+
 
     public List<Medicamento> medicamentosProximosVencimento() {
         LocalDate limite = LocalDate.now().plusDays(30);

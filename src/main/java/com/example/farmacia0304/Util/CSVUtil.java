@@ -7,10 +7,7 @@ import java.util.List;
 
 public class CSVUtil {
 
-    /**
-     * Lê um arquivo CSV e retorna uma lista de arrays de String,
-     * onde cada linha representa um array com os campos separados por ";"
-     */
+
     public static List<String[]> lerCSV(String caminho) throws IOException {
         List<String[]> linhas = new ArrayList<>();
         File arquivo = new File(caminho);
@@ -29,10 +26,7 @@ public class CSVUtil {
         return linhas;
     }
 
-    /**
-     * Escreve uma lista de Strings no formato CSV.
-     * Cada String representa uma linha completa do CSV (campos já separados por ";")
-     */
+
     public static void escreverCSV(String caminho, List<String> linhas) throws IOException {
         try (BufferedWriter writer = new BufferedWriter(
                 new OutputStreamWriter(new FileOutputStream(caminho), StandardCharsets.UTF_8))) {

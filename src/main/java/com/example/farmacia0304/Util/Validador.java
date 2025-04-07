@@ -31,7 +31,7 @@ public class Validador {
     public static boolean validarCNPJ(String cnpj) {
         if (cnpj == null) return false;
 
-        // Aceita tanto formatado quanto apenas os dígitos
+
         return cnpj.matches("\\d{2}\\.\\d{3}\\.\\d{3}/\\d{4}-\\d{2}") || cnpj.matches("\\d{14}");
     }
 

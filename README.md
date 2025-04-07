@@ -69,7 +69,7 @@ src/
 
 - [x] Cadastro de Medicamentos
 - [x] Associação a um Fornecedor
-- [x] Validações (ex: validade, preço, nome, código alfanumérico)
+- [x] Validações (CNPJ,código alfanúmerico, nome não pode ser vazio,data => atual, quantidade não negativa,preço em valor positivo)
 - [x] Tabela com medicamentos do estoque
 - [x] Persistência em arquivo `medicamento.csv`
 - [x] Exibição de mensagens de erro e sucesso
